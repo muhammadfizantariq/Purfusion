@@ -1,0 +1,38 @@
+<header id="site-header" class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="brand">
+      <img class="logo" src="logo_.png" alt="Profusion General Contractor logo" height="20" />
+      <span class="brand-text">PROFUSION<span class="brand-suffix">CONTRACTOR</span></span>
+    </a>
+    <input id="menu-toggle" class="menu-toggle" type="checkbox" aria-label="Toggle navigation" />
+    <label for="menu-toggle" class="hamburger">
+      <span></span><span></span><span></span>
+    </label>
+    <nav class="nav" role="navigation">
+      <a class="nav-link" href="index.html">Home</a>
+      <a class="nav-link" href="about.html">About</a>
+      <a class="nav-link" href="services.html">Services</a>
+      <a class="nav-link" href="contact.html">Contact</a>
+      <a class="header-cta" href="tel:661-400-6221">Free Quote</a>
+    </nav>
+  </div>
+</header>
+
+<script>
+// Header scroll effect
+window.addEventListener('scroll', function() {
+  const header = document.getElementById('site-header');
+  if (window.scrollY > 50) {
+    header.classList.add('scrolled');
+  } else {
+    header.classList.remove('scrolled');
+  }
+});
+
+// Close mobile menu when clicking links
+document.querySelectorAll('.nav-link').forEach(link => {
+  link.addEventListener('click', () => {
+    document.getElementById('menu-toggle').checked = false;
+  });
+});
+</script>
