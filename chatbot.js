@@ -599,12 +599,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         try {
-            // Use dynamic API URL based on environment
-            const API_URL = window.location.hostname === 'localhost' 
-                ? 'http://localhost:3000' 
-                : window.location.origin;
-            
-            const response = await fetch(`${API_URL}/api/save-lead`, {
+            const response = await fetch('http://localhost:3000/api/save-lead', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(leadData)

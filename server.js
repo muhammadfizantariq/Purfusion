@@ -2,15 +2,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const path = require('path');
 require('dotenv').config(); // Load environment variables
 
 const app = express();
 app.use(cors());
 app.use(express.json());
-
-// Serve static files
-app.use(express.static(__dirname));
 
 // --- Connect to MongoDB ---
 // Use environment variable for MongoDB URI
@@ -145,13 +141,8 @@ app.post('/api/save-lead', async (req, res) => {
     }
 });
 
-// Catch-all route to serve index.html for SPA routing
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
-});
-
 // Use environment variable for PORT
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
