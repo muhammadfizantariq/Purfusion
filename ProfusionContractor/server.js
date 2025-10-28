@@ -11,12 +11,19 @@ app.use(express.json());
 // Serve static files
 app.use(express.static('.'));
 
-// --- Connect to MongoDB ---
-// Use environment variable for MongoDB URI
+// Health check
+app.get('/health', (req, res) => res.send('OK'));
+
+// --- Connect to MongoDB (optional) ---
 const mongoURI = process.env.MONGODB_URI;
-mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+const dbEnabled = !!mongoURI;
+if (dbEnabled) {
+  mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('MongoDB Connected...'))
     .catch(err => console.error('MongoDB Connection Error:', err));
+} else {
+  console.warn('MONGODB_URI is not set. Starting without database; /api/save-lead disabled.');
+}
 
 // --- Define a structured Schema for Leads ---
 const leadSchema = new mongoose.Schema({
@@ -41,6 +48,9 @@ const Lead = mongoose.model('Lead', leadSchema);
 
 // --- API Endpoint to Save a Structured Lead ---
 app.post('/api/save-lead', async (req, res) => {
+    if (!dbEnabled || mongoose.connection.readyState !== 1) {
+        return res.status(503).json({ success: false, message: 'Database not configured.' });
+    }
     try {
         const { leadType, serviceContext, projectType, projectDetails, contactInfo, location, services, fullConversation } = req.body;
 
